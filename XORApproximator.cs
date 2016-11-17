@@ -22,7 +22,7 @@ namespace nnExample
 
             double[] resultSet = new double[8] { 1, 0, 0, 1, 0, 1, 1, 0 }; //xnor
 
-            var nn = new FeedForwardNetwork(3, 3);
+            var nn = new FeedForwardNetwork(3, 3, 1);
 
             for (int i = 0; i < 20000; i++)
             {

@@ -38,7 +38,7 @@ namespace nnExample
             this.currentValue = Sigmoid(sum);
         }
 
-        public void SetDeltaFromError(double error)
+        public void SetMomentumErrorProduct(double error)
         {
             CurrentMomentumErrorProduct = currentValue * (1.0 - currentValue) * (error);
         }

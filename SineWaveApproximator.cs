@@ -10,7 +10,7 @@ namespace nnExample
     {
         public static void M()
         {
-            var nn = new FeedForwardNetwork(1, 20);
+            var nn = new FeedForwardNetwork(1, 20, 1);
             var rand = new Random(13);
 
             for (int i = 0; i < 50000; i++)

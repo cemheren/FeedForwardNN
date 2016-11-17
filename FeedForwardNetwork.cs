@@ -23,7 +23,7 @@ namespace nnExample
             }
         }
 
-        public FeedForwardNetwork(int input, int hidden)
+        public FeedForwardNetwork(int input, int hidden, int output)
         {
             input++;
             hidden++;
@@ -40,8 +40,11 @@ namespace nnExample
                 hiddenNeurons[i] = new Neuron(input);
             }
 
-            outputNeurons = new Neuron[1];
-            outputNeurons[0] = new Neuron(hidden);
+            outputNeurons = new Neuron[output];
+            for (int i = 0; i < output; i++)
+            {
+                outputNeurons[0] = new Neuron(hidden);
+            }
         }
 
         public override string ToString()
@@ -106,7 +109,7 @@ namespace nnExample
             // Get the delta value for the output layer
             for (int i = 0; i < this.outputNeurons.Length; i++)
             {
-                this.outputNeurons[i].SetDeltaFromError(target[i] - this.outputNeurons[i].currentValue);
+                this.outputNeurons[i].SetMomentumErrorProduct(target[i] - this.outputNeurons[i].currentValue);
             }
 
             for (int i = 0; i < this.hiddenNeurons.Length; i++)
@@ -116,7 +119,7 @@ namespace nnExample
                 {
                     error += this.outputNeurons[j].Weights[i] * this.outputNeurons[j].CurrentMomentumErrorProduct;
                 }
-                this.hiddenNeurons[i].SetDeltaFromError(error);
+                this.hiddenNeurons[i].SetMomentumErrorProduct(error);
             }
             // we propagated the errors back
 
