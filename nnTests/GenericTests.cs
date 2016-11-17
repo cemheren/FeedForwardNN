@@ -86,6 +86,32 @@ namespace nnTests
             }
         }
 
+        [TestMethod]
+        public void AdditionApproximator()
+        {
+            var nn = new FeedForwardNetwork(2, 6, 1);
+            var rand = new Random(13);
+
+            for (int i = 0; i < 100000; i++)
+            {
+                var t1 = rand.NextDouble() /2;
+                var t2 = rand.NextDouble() /2;
+
+                nn.ForwardPass(new double[] { t1, t2 });
+                nn.BackPropagateForTarget(new double[] { (t1 + t2) });
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                var t1 = rand.NextDouble() / 2;
+                var t2 = rand.NextDouble() / 2;
+
+                nn.ForwardPass(new double[] { t1, t2 });
+
+                Assert.IsTrue(AreSimilar(t1 + t2, nn.GetCurrentResult()[0]));
+            }
+        }
+
         private bool AreSimilar(double f, double s)
         {
             return Math.Abs(f - s) < 0.1;

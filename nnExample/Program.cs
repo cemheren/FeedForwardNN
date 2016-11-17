@@ -10,7 +10,7 @@ namespace nnExample
     {
         static void Main(string[] args)
         {
-            SineWaveApproximator.M();
+            
         }
     }
 }
