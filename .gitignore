@@ -10,9 +10,8 @@
 *.sln.docstates
 *.vcxproj.filters
 
-mnist_test.csv
-mnist_train.csv
-
+*mnist_test.csv
+*mnist_train.csv
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
