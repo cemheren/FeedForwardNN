@@ -18,7 +18,7 @@ namespace nnExample
         {
             get
             {
-                return 0.3;
+                return 0.1;
                 return (0.2 + (rand.NextDouble()));
             }
         }
@@ -43,7 +43,7 @@ namespace nnExample
             outputNeurons = new Neuron[output];
             for (int i = 0; i < output; i++)
             {
-                outputNeurons[0] = new Neuron(hidden);
+                outputNeurons[i] = new Neuron(hidden);
             }
         }
 
@@ -132,13 +132,13 @@ namespace nnExample
 
         private void UpdateWeights(Neuron[] outputLayer, Neuron[] inputLayer)
         {
-            for (int i = 0; i < outputLayer.Length; i++)
+            Parallel.For(0, outputLayer.Length, (i) =>
             {
                 for (int j = 0; j < inputLayer.Length; j++)
                 {
                     outputLayer[i].Weights[j] += this.LearningRate * outputLayer[i].CurrentMomentumErrorProduct * inputLayer[j].currentValue;
                 }
-            }
+            });
         }
     }
 }

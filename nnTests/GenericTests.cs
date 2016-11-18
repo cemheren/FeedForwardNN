@@ -24,7 +24,7 @@ namespace nnTests
 
             var nn = new FeedForwardNetwork(3, 3, 1);
 
-            for (int i = 0; i < 20000; i++)
+            for (int i = 0; i < 200000; i++)
             {
                 var m = i % 8;
                 nn.ForwardPass(trainingSet[m]);

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MNISTClassifier.cs" />
     <Compile Include="MultiplicationApproximator.cs" />
     <Compile Include="Neuron.cs" />
     <Compile Include="Program.cs" />
@@ -51,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="mnist_test.csv" />
+    <None Include="mnist_train.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
