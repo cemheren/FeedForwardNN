@@ -8,7 +8,7 @@ namespace nnTests
     public class GenericTests
     {
         [TestMethod]
-        public void XORApproximator()
+        public void XNORApproximator()
         {
             double[][] trainingSet = new double[8][];
             trainingSet[0] = new double[] { 0, 0, 0 };

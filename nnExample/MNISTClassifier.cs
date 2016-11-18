@@ -11,8 +11,8 @@ namespace nnExample
     {
         public static void M()
         { 
-            var trainFile = File.ReadAllLines("../../mnist_train.csv");
-            var testFile = File.ReadAllLines("../../mnist_test.csv");
+            var trainFile = File.ReadAllLines("../../../mnist/mnist_train.csv");
+            var testFile = File.ReadAllLines("../../../mnist/mnist_test.csv");
 
             var parsedFile = ParseFile(trainFile.Take(60000).ToArray());
             var trainData = parsedFile.Item1;
