@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace nnExample
 {
-    public class FeedForwardNetwork
+    public class RecurrentNetwork
     {
         private Neuron[] inputNeurons;
-        private Neuron[] hiddenNeurons;
+        private RecurrentNeuron[] hiddenNeurons;
         private Neuron[] outputNeurons;
+
+        private int lookback;
 
         private Random rand = new Random(71);
 
@@ -19,12 +21,13 @@ namespace nnExample
             get
             {
                 return 0.1;
-                return (0.2 + (rand.NextDouble()));
             }
         }
 
-        public FeedForwardNetwork(int input, int hidden, int output)
+        public RecurrentNetwork(int input, int hidden, int output, int lookback)
         {
+            this.lookback = lookback;
+
             input++;
             hidden++;
 
@@ -34,10 +37,10 @@ namespace nnExample
                 inputNeurons[i] = new Neuron(0);
             }
 
-            hiddenNeurons = new Neuron[hidden];
+            hiddenNeurons = new RecurrentNeuron[hidden];
             for (int i = 0; i < hidden; i++)
             {
-                hiddenNeurons[i] = new Neuron(input);
+                hiddenNeurons[i] = new RecurrentNeuron(input, hidden, lookback);
             }
 
             outputNeurons = new Neuron[output];
@@ -92,9 +95,11 @@ namespace nnExample
             }
             this.inputNeurons.Last().currentValue = 1; // bias node
 
+
+            var copyOfHiddenValues = this.hiddenNeurons.Select(h => h.currentValue).ToArray();
             for (int i = 0; i < hiddenNeurons.Length - 1; i++)
             {
-                hiddenNeurons[i].ActivateNeuron(this.inputNeurons.Select(n => n.currentValue).ToArray());
+                hiddenNeurons[i].ActivateRecurrentNeuron(this.inputNeurons.Select(n => n.currentValue).ToArray(), copyOfHiddenValues);
             }
             hiddenNeurons.Last().currentValue = 1; // bias node
 
@@ -119,6 +124,15 @@ namespace nnExample
                 {
                     error += this.outputNeurons[j].InputWeights[i] * this.outputNeurons[j].CurrentMomentumErrorProduct;
                 }
+
+                for (int j = 0; j < this.hiddenNeurons.Length; j++)
+                {
+                    for (int t = 0; t < this.lookback; t++)
+                    {
+                        error += this.hiddenNeurons[j].SelfWeightsThroughTime[i][t] * this.hiddenNeurons[j].CurrentMomentumErrorProduct;
+                    }
+                }
+
                 this.hiddenNeurons[i].SetMomentumErrorProduct(error);
             }
             // we propagated the errors back

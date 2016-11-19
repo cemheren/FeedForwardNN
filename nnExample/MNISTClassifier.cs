@@ -44,8 +44,8 @@ namespace nnExample
                 {
                     nn.ForwardPass(trainData[i]);
                     var currentPrediction = nn.GetCurrentResult();
-                    var p = MaxIndex(currentPrediction);
-                    var r = MaxIndex(trainLabel[i]);
+                    var p = Helpers.MaxIndex(currentPrediction);
+                    var r = Helpers.MaxIndex(trainLabel[i]);
 
                     if (p == r)
                     {
@@ -63,8 +63,8 @@ namespace nnExample
                 nn.ForwardPass(testData[i]);
 
                 var currentPrediction = nn.GetCurrentResult();
-                var p = MaxIndex(currentPrediction);
-                var r = MaxIndex(testLabel[i]);
+                var p = Helpers.MaxIndex(currentPrediction);
+                var r = Helpers.MaxIndex(testLabel[i]);
 
                 if (p == r)
                 {
@@ -90,41 +90,10 @@ namespace nnExample
             {
                 var csv = text[i].Split(',');
                 data[i] = csv.Skip(1).Select(n => double.Parse(n) / 255.0).ToArray(); // normalize
-                label[i] = ConvertToOneHot(int.Parse(csv[0]));
+                label[i] = Helpers.ConvertToOneHot(int.Parse(csv[0]), 10);
             });
 
             return new Tuple<double[][], double[][]>(data, label);
-        }
-
-        private static double[] ConvertToOneHot(int d) 
-        {
-            var result = new double[10];
-
-            for (int i = 0; i < 10; i++)
-            {
-                if (i == d)
-                {
-                    result[i] = 1;
-                    return result;
-                }
-            }
-
-            return result;
-        }
-
-        private static int MaxIndex(double[] arr)
-        {
-            double maxValue = arr.Max();
-            int maxIndex = arr.ToList().IndexOf(maxValue);
-            return maxIndex;
-        }
-    }
-
-    public static class Print
-    {
-        public static string ToNiceString(this double[] x)
-        {
-            return string.Join("\n", x);
         }
     }
 }
